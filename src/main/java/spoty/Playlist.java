@@ -49,7 +49,7 @@ public class Playlist {
     }
 
     //agregar cancion a la playlist
-    public void agregarCanciones(Cancion cancion){
+    public void agregarCancion(Cancion cancion){
         lcanciones.add(cancion);
         duracionTotal = duracionTotal + cancion.getDuracion();
     }

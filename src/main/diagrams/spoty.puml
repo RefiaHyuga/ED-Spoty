@@ -1,3 +1,78 @@
 @startuml Spoty
 
+class Cancion {
+    - titulo : String
+    - artista : String
+    - duracion : int
+    - nreproducciones : int
+
+    + Cancion(titulo : String, artista : String, duracion : int)
+    + getTitulo() : String
+    + setTitulo(titulo : String) : void
+    + getArtista() : String
+    + setArtista(artista : String) : void
+    + getDuracion() : int
+    + setDuracion(duracion : int) : void
+    + getNreproducciones() : int
+    + setNreproducciones(nreproducciones : int) : void
+    + reproducir() : void
+    + toString() : String
+}
+
+class Playlist {
+    - nombre : String
+    - lcanciones : List<Cancion>
+    - duracionTotal : int
+
+    + Playlist(nombre : String)
+    + getNombre() : String
+    + setNombre(nombre : String) : void
+    + getLcanciones() : List<Cancion>
+    + setLcanciones(lcanciones : List<Cancion>) : void
+    + getDuracionTotal() : int
+    + setDuracionTotal(duracionTotal : int) : void
+    + agregarCancion(cancion : Cancion) : void
+    + toString() : String
+}
+
+class Usuario {
+    - nombre : String
+    - email : String
+    - playlist : List<Playlist>
+
+    + Usuario(email : String, nombre : String)
+    + getNombre() : String
+    + setNombre(nombre : String) : void
+    + getEmail() : String
+    + setEmail(email : String) : void
+    + getPlaylist() : List<Playlist>
+    + setPlaylist(playlist : List<Playlist>) : void
+    + agregarPlaylist(nombre : String) : void
+    + buscarPlaylist(nombre : String) : Playlist
+    + toString() : String
+}
+
+class Spotify {
+    - usuarios : List<Usuario>
+    - catalogo : List<Cancion>
+
+    + Spotify()
+    + getUsuarios() : List<Usuario>
+    + setUsuarios(usuarios : List<Usuario>) : void
+    + getCatalogo() : List<Cancion>
+    + setCatalogo(catalogo : List<Cancion>) : void
+    + agregarCancion(titulo : String, artista : String, duracion : int) : void
+    + buscarCancion(nombre : String) : Cancion
+    + mostrarCatalogo() : void
+    + registrarUsuario(nombre : String, email : String) : void
+    + buscarUsuario(nombre : String) : Usuario
+    + mostrarCancionesMasReproducidas() : void
+}
+
+' Relaciones
+Spotify "1" *-- "0..*" Usuario : gestiona
+Spotify "1" *-- "0..*" Cancion : catálogo
+Usuario "1" *-- "0..*" Playlist : crea
+Playlist "1" *-- "0..*" Cancion : contiene
+
 @enduml

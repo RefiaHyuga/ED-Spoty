@@ -23,47 +23,45 @@ public class Main {
             sc.nextLine();
 
             switch (opcion) {
-                case 1 -> {
+                case 1 -> { //Registrar usuario
                     System.out.print("Nombre usuario: ");
                     String nombre = sc.nextLine();
                     System.out.print("Email: ");
                     String email = sc.nextLine();
                     spotify.registrarUsuario(nombre, email);
                 }
-                case 2 -> {
+                case 2 -> { //Añadir canción al catálogo
                     System.out.print("Título: ");
                     String titulo = sc.nextLine();
                     System.out.print("Artista: ");
                     String artista = sc.nextLine();
                     System.out.print("Duración (segundos): ");
                     int duracion = sc.nextInt();
-                    spotify.agregarCancion(new Cancion(titulo, artista, duracion));
+                    spotify.agregarCancion(titulo, artista, duracion);
                 }
-                case 3 -> {
+                case 3 -> { //Crear playlist
                     System.out.print("Usuario: ");
                     String user = sc.nextLine();
                     Usuario u = spotify.buscarUsuario(user);
                     if (u != null) {
                         System.out.print("Nombre playlist: ");
-                        u.crearPlaylist(sc.nextLine());
+                        u.agregarPlaylist(sc.nextLine());
                     } else {
                         System.out.println("Usuario no encontrado.");
                     }
                 }
-                case 4 -> {
+                case 4 -> { //Añadir canción a playlist
                     System.out.print("Usuario: ");
                     Usuario u = spotify.buscarUsuario(sc.nextLine());
                     if (u == null) break;
-
                     System.out.print("Playlist: ");
                     Playlist p = u.buscarPlaylist(sc.nextLine());
                     if (p == null) break;
-
                     System.out.print("Canción: ");
                     Cancion c = spotify.buscarCancion(sc.nextLine());
                     if (c != null) p.agregarCancion(c);
                 }
-                case 5 -> {
+                case 5 -> { //Reproducir canción
                     System.out.print("Canción: ");
                     Cancion c = spotify.buscarCancion(sc.nextLine());
                     if (c != null) {
@@ -71,14 +69,16 @@ public class Main {
                         System.out.println("Reproduciendo...");
                     }
                 }
-                case 6 -> spotify.mostrarCanciones();
-                case 7 -> {
+                case 6 -> {//Mostrar canciones 
+                    spotify.mostrarCatalogo();
+                }
+                case 7 -> { //Mostrar playlists de un usuario
                     System.out.print("Usuario: ");
                     Usuario u = spotify.buscarUsuario(sc.nextLine());
                     if (u != null) {
-                        u.getPlaylists().forEach(System.out::println);
+                        System.out.println(u);
                     }
-                }
+                }  //Mostrar canciones más reproducidas
                 case 8 -> spotify.mostrarCancionesMasReproducidas();
             }
         } while (opcion != 0);

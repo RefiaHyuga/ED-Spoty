@@ -1,5 +1,6 @@
 package spoty;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Spotify {
@@ -29,24 +30,26 @@ public class Spotify {
 
     //agregar canciones en la playlist
     public void agregarCancion(String titulo, String artista, int duracion){
-        Cancion c = new Cancion(titulo, artista, duracion);
-        if(existeEnCatalogo(c)){
+        Cancion c = buscarCancion(titulo);
+        if(c!=null){
             System.out.println("La cancion esta ya en el catalogo");
         }
         else{
+            c=new Cancion(titulo, artista, duracion);
             catalogo.add(c);
             System.out.println("Se ha insertado " + c);
         }
     }
 
     //busca si esta la cancion en le catalogo
-    public boolean existeEnCatalogo(Cancion cancion){
+    public Cancion buscarCancion(String nombre){
+        Cancion c = null;
         for(int i=0; i<catalogo.size();i++){
-            if(catalogo.get(i).equals(cancion)){
-                return true;
+            if(catalogo.get(i).getTitulo().equals(nombre)){
+                c=catalogo.get(i);
             }
         }
-        return false;
+        return c;
     }
 
     //mostrar el catalogo
@@ -59,36 +62,42 @@ public class Spotify {
     }
 
     //registra usuarios
-    public void registrarUsuario(String email, String nombre){
-        Usuario u = new Usuario(email, nombre);
-        if(estaRegistrado(u)){
+    public void registrarUsuario(String nombre, String email){
+        Usuario u = buscarUsuario(nombre);
+        if(u!=null){
             System.out.println("La usuario esta ya registrado");
         }
         else{
+            u=new Usuario(email, nombre);
             usuarios.add(u);
             System.out.println("Se ha insertado " + u);
         }
     }
 
-    //busca si esta el usuario registrado
-    public boolean estaRegistrado(Usuario usuario){
-        for(int i=0; i<usuarios.size();i++){
-            if(usuarios.get(i).equals(usuario)){
-                return true;
-            }
-        }
-        return false;
-    }
-
     //Buscar usuario por nombre y muestra por pantalla
-    public void buscarUsuario(String nombre){
+    public Usuario buscarUsuario(String nombre){
+         Usuario u = null;
          for(int i=0; i<usuarios.size();i++){
             if(usuarios.get(i).getNombre().equals(nombre)){
+                u = usuarios.get(i);
                 System.out.println(usuarios.get(i));
             }
         }
+        return u;
     }
 
-
+    // Muestra las canciones mas reproducida
+    public void mostrarCancionesMasReproducidas(){
+        if(catalogo.size()>3){
+            catalogo.sort(Comparator.comparing(Cancion::getNreproducciones).reversed());
+            System.out.println("El top 10 de las canciones mas escuchadas son: ");
+            for (int i = 0; i < 3; i++){
+                System.out.println(catalogo.get(i).getTitulo());
+            }
+        }else{
+            System.out.println("No hay suficientes datos para esta funcion");
+        }
+        
+    }
 
 }

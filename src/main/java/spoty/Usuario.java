@@ -48,25 +48,25 @@ public class Usuario {
 
     //Creamos playlist para usuario
     public void agregarPlaylist(String nombre){
-        Playlist p = new Playlist(nombre);
-        if(existePlaylist(nombre)){
+        Playlist p = buscarPlaylist(nombre);
+        if(p!=null){
             System.out.println("La playlist ya existe");
+        }else{
+            playlist.add(new Playlist(nombre));
+            System.out.println("La playlist ha sido agregada");
         }
-        playlist.add(p);
+        
     }
 
     //Buscamos si existe la playlist
-    public boolean existePlaylist(String nombre){
+    public Playlist buscarPlaylist(String nombre){
+        Playlist p = null;
         for (int i = 0; i < playlist.size(); i++) {
             if(playlist.get(i).getNombre().equals(nombre)){
-                return true;
+                p=playlist.get(i);
             }
         }
-        return false;
+        return p;
     }
-
-    
-
-
 
 }
